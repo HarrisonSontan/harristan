@@ -18,7 +18,11 @@
         <router-link to="/aboutme">关于</router-link>
         <router-link to="/search">搜索</router-link>
       </div>
-      <ThemeButton class="theme-button" @change="handleThemeChange" />
+      <ThemeButton
+        v-if="!isMobile"
+        class="theme-button"
+        @change="handleThemeChange"
+      />
     </nav>
     <aside v-if="isMobile && isSidebarOpen" class="sidebar">
       <router-link to="/" @click="toggleSidebar">首页</router-link>
