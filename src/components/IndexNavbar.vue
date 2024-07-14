@@ -2,7 +2,9 @@
   <div>
     <nav :class="['navbar', { 'navbar-scrolled': isScrolled }]">
       <div class="navbar-left">
-        <button class="menu-btn" @click="toggleSidebar">☰</button>
+        <button class="menu-btn" @click="toggleSidebar" :class="themeClass">
+          ☰
+        </button>
         <a href="/home" class="navbar-link">
           <img src="@/assets/Snowman.jpg" class="avatar" />
           <span class="navbar-name">HarristanのBlog</span>
@@ -16,14 +18,15 @@
         <router-link to="/aboutme">关于</router-link>
         <router-link to="/search">搜索</router-link>
       </div>
+      <ThemeButton class="theme-button" @change="handleThemeChange" />
     </nav>
     <aside v-if="isMobile && isSidebarOpen" class="sidebar">
       <router-link to="/" @click="toggleSidebar">首页</router-link>
-      <a href="#archive" @click="toggleSidebar">归档</a>
-      <a href="#message" @click="toggleSidebar">留言板</a>
-      <a href="#friends" @click="toggleSidebar">友链</a>
-      <a href="#about" @click="toggleSidebar">关于</a>
-      <a href="#search" @click="toggleSidebar">搜索</a>
+      <router-link to="/home" @click="toggleSidebar">归档</router-link>
+      <router-link to="/message" @click="toggleSidebar">留言板</router-link>
+      <router-link to="/friends" @click="toggleSidebar">友链</router-link>
+      <router-link to="/aboutme" @click="toggleSidebar">关于</router-link>
+      <router-link to="/search" @click="toggleSidebar">搜索</router-link>
     </aside>
     <div
       v-if="isMobile && isSidebarOpen"
@@ -34,23 +37,35 @@
 </template>
 
 <script>
+import ThemeButton from "./ThemeButton.vue"; // 确保路径正确
+
 export default {
   name: "Navbar",
+  components: {
+    ThemeButton,
+  },
   data() {
     return {
       isScrolled: false,
       isMobile: false,
       isSidebarOpen: false,
+      theme: "light", // 默认主题
     };
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.checkMobile);
     this.checkMobile();
+    this.theme = document.body.getAttribute("data-theme") || "light"; // 初始化主题
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
     window.removeEventListener("resize", this.checkMobile);
+  },
+  computed: {
+    themeClass() {
+      return this.theme === "dark" ? "dark-theme" : "light-theme";
+    },
   },
   methods: {
     handleScroll() {
@@ -61,6 +76,10 @@ export default {
     },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    handleThemeChange(theme) {
+      document.body.setAttribute("data-theme", theme);
+      this.theme = theme; // 更新主题
     },
   },
 };
@@ -92,6 +111,7 @@ export default {
 }
 
 .menu-btn {
+  margin-bottom: 5px;
   position: absolute;
   left: 10%;
   display: none;
@@ -99,6 +119,13 @@ export default {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.light-theme {
+  color: black;
+}
+
+.dark-theme {
   color: white;
 }
 
@@ -117,7 +144,6 @@ export default {
 
 .navbar-name {
   font-size: 20px;
-  color: white;
 }
 
 .navbar-right {
@@ -127,7 +153,6 @@ export default {
 
 .navbar-right a,
 .navbar-right router-link {
-  color: white;
   text-decoration: none;
   margin-left: 20px;
 }
@@ -135,6 +160,17 @@ export default {
 .navbar-right a:hover,
 .navbar-right router-link:hover {
   text-decoration: underline;
+}
+
+.theme-button {
+  width: 60px;
+  height: 30px;
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 1024px) {
@@ -166,7 +202,6 @@ export default {
 
 .sidebar a,
 .sidebar router-link {
-  color: white;
   text-decoration: none;
   margin-bottom: 20px;
   font-size: 18px;
