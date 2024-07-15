@@ -9,15 +9,17 @@
 }
 
 body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    /* 使用Noto Sans SC, PingFang SC 或微软雅黑字体 */
     font-family: Arial, sans-serif;
     background-color: aliceblue;
-    color: #333;
+    color: #FFFFFF;
     /* 白天默认背景颜色 */
 }
 
 body[data-theme="dark"] {
-    background-color: #000;
-    color: #fff;
+    background-color: #34495E;
+    color: #FFFFFF99;
     /* 夜间默认背景颜色 */
 }
 
