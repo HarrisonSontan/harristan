@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "IndexFooter",
+  data() {},
   methods: {},
 };
 </script>
@@ -17,7 +18,6 @@ export default {
 <style scoped>
 .footer {
   background: rgba(86, 204, 242, 1);
-  color: white;
   text-align: center;
   padding: 20px;
   position: relative;

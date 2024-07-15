@@ -7,7 +7,7 @@
         </button>
         <a href="/home" class="navbar-link">
           <img src="@/assets/Snowman.jpg" class="avatar" />
-          <span class="navbar-name">HarristanのBlog</span>
+          <span class="navbar-name">Harristan</span>
         </a>
       </div>
       <div class="navbar-right" v-if="!isMobile">
@@ -44,7 +44,7 @@
 import ThemeButton from "./ThemeButton.vue"; // 确保路径正确
 
 export default {
-  name: "Navbar",
+  name: "IndexNavbar",
   components: {
     ThemeButton,
   },
@@ -82,8 +82,8 @@ export default {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     handleThemeChange(theme) {
-      document.body.setAttribute("data-theme", theme);
-      this.theme = theme; // 更新主题
+      this.theme = theme; // 更新本地主题状态
+      this.$emit("themeChange", theme); // 向父组件传递主题变化
     },
   },
 };
@@ -125,14 +125,6 @@ export default {
   cursor: pointer;
 }
 
-.light-theme {
-  color: black;
-}
-
-.dark-theme {
-  color: white;
-}
-
 .navbar-link {
   display: flex;
   align-items: center;
@@ -148,6 +140,7 @@ export default {
 
 .navbar-name {
   font-size: 20px;
+  font-weight: bolder;
 }
 
 .navbar-right {
@@ -177,6 +170,14 @@ export default {
   align-items: center;
 }
 
+.dark-theme {
+  color: #ffffff99;
+}
+
+.light-theme {
+  color: #ffffff;
+}
+
 @media (max-width: 1024px) {
   .navbar-right {
     display: none;
@@ -187,6 +188,9 @@ export default {
   .navbar-left {
     justify-content: center;
     width: 100%;
+  }
+  .navbar-name {
+    font-size: 14px;
   }
 }
 
